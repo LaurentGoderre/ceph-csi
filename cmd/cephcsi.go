@@ -301,6 +301,12 @@ func setPIDLimit(conf *util.Config) {
 			klog.Errorf("Failed to get the PID limit, can not reconfigure: %v", pidErr)
 		} else {
 			log.DefaultLog("Initial PID limit is set to %d", currentLimit)
+
+			if currentLimit == conf.PidLimit {
+				log.DefaultLog("PID limit already set to %d (max)", conf.PidLimit)
+				return
+			}
+
 			err := util.SetPIDLimit(conf.PidLimit)
 			switch {
 			case err != nil:
